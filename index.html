@@ -5,12 +5,38 @@
     <meta charset="UTF-8">
     <title>enjoei - teste front-end</title>
     <link rel="icon" type="image/x-icon" href="https://www.enjoei.com.br/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="vendor/flexboxgrid.min.css">
 
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mockjax/1.6.2/jquery.mockjax.min.js"></script>
     <script>$.mockjax({ url: /.*\/api\/newsletter/, responseText: { status: 'success', message: 'email cadastrado com sucesso' }});</script>
 
     <style>
+      @font-face {
+        font-family: 'proxima-bold';
+        src: url('proxima-nova/proxima-bold.eot'); /* IE9 Compat Modes */
+        src: url('proxima-nova/proxima-bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+             url('proxima-nova/proxima-bold.woff') format('woff'), /* Pretty Modern Browsers */
+             url('proxima-nova/proxima-bold.ttf')  format('truetype'), /* Safari, Android, iOS */
+             url('proxima-nova/proxima-bold.svg#svgFontName') format('svg'); /* Legacy iOS */
+      }
+      @font-face {
+        font-family: 'proxima-regular';
+        src: url('proxima-nova/proxima-regular.eot'); /* IE9 Compat Modes */
+        src: url('proxima-nova/proxima-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+             url('proxima-nova/proxima-regular.woff') format('woff'), /* Pretty Modern Browsers */
+             url('proxima-nova/proxima-regular.ttf')  format('truetype'), /* Safari, Android, iOS */
+             url('proxima-nova/proxima-regular.svg#svgFontName') format('svg'); /* Legacy iOS */
+      }
+      @font-face {
+        font-family: 'proxima-semibold';
+        src: url('proxima-nova/proxima-semibold.eot'); /* IE9 Compat Modes */
+        src: url('proxima-nova/proxima-semibold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+             url('proxima-nova/proxima-semibold.woff') format('woff'), /* Pretty Modern Browsers */
+             url('proxima-nova/proxima-semibold.ttf')  format('truetype'), /* Safari, Android, iOS */
+             url('proxima-nova/proxima-semibold.svg#svgFontName') format('svg'); /* Legacy iOS */
+      }
+
       .c-instructions {
         display: block;
         width: 85%;
@@ -30,10 +56,174 @@
         line-height: 22px;
         color: #555555;
       }
+
+      .modal-container{
+        font-family: 'proxima-regular', Fallback, sans-serif;
+        position: relative;
+        background-color: #ea5653;
+        border-radius: 10px;
+        width: 60%;
+        max-width: 700px;
+        min-width: 260px;
+        padding: 1em;
+        color: #FFFFFF;
+        display: none;
+
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%);
+      }
+
+      .modal-container h2{
+        font-family: 'proxima-semibold', Fallback, sans-serif;
+        font-size: 24px
+      }
+
+      .modal-container p{
+        font-size: 14px;
+        line-height: 20pt;
+      }
+
+      .modal-container a.close{
+        text-decoration: none;
+        float: right;
+        position: absolute;
+        right: 0.7em;
+        top: 0.7em;
+        font-size: 1.5em;
+        color: #FFFFFF;
+        font-weight: normal;
+      }
+
+      .modal-container img{
+        display: none;
+        width: 100%;
+      }
+
+      .modal-container form *{
+        display: block;
+        width: 100%
+      }
+      .modal-container form label{
+        font-family: 'proxima-semibold', Fallback, sans-serif;
+        text-transform: uppercase;
+        margin-bottom: 0.5em;
+        font-size: 12px;
+      }
+      .modal-container form input{
+        line-height: 40px;
+         border-radius: 3px;
+         border: none;
+      }
+
+      .modal-container form .group{
+        padding-bottom: 10px
+      }
+
+      .modal-container [type="submit"]{
+        font-family: 'proxima-bold', Fallback, sans-serif;
+        font-size: 16px;
+        height: 40px;
+        border: none;
+        border-radius: 2px;
+        color: #ea5653;
+      }
+      .overlay.active, .modal-container.active{
+        display: block;
+      }
+      .overlay{
+        display: none;
+        background-color: rgba(57,55,53,0.6);
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0px;
+        left: 0px;
+      }
+
+      @media (min-width: 768px){
+
+        .modal-container h2{
+          font-size: 28px
+        }
+
+        .modal-container p{
+          font-size: 18px;
+          line-height: 24pt;
+        }
+
+        .modal-container{
+          overflow: hidden;
+          padding-bottom: 80px;
+        }
+        .modal-container form .group{
+          margin: auto;
+        }
+        .modal-container img{
+          display: block;
+          height: 100px;
+          width: auto;
+          position: absolute;
+          bottom: -30px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+
+      @media (min-width: 1024px){
+        .modal-container{
+          overflow: initial;
+          padding-bottom: 1em;
+        }
+        .modal-container img{
+          height: 150px;
+          margin: auto;
+          position: initial;
+          transform: none;
+        }
+      }
+
     </style>
   </head>
 
   <body>
+
+  <div class="overlay">  </div>
+    <div class="modal-container" id="modalNews">
+        <a class="close" href="#">&#10006;</a>
+      <div class="row center-xs">
+        <div class="col-xs-12 col-sm-10 col-md-9">
+          <h2>ENJUNEWS</h2>
+          <p>
+            receba novidades do site mais legal do brasiô, coloca seu
+    nome e email ai embaixo e manda bala :)
+          </p>
+          
+        </div>
+      </div>
+      <div class="row middle-md">
+        <div class="col-md-5 col-sm-12 first-md">
+          <img src="cat.png">
+        </div>
+        <div class="col-md-7 col-sm-12 col-xs-12 first-sm">
+          <form name="formNews">
+            <div class="group col-sm-9 col-md-12">
+              <label>Nome</label>
+              <input type="text" name="nome">              
+            </div>
+            <div class="group col-sm-9 col-md-12">
+              <label>Email</label>
+              <input type="email" name="email">              
+            </div>
+            <div class="group col-sm-9 col-md-12">
+              <button type="submit">quero receber novidades</button>              
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <div class="c-instructions">
       <img class="c-instructions__logo"
         src="https://assets3.enjoei.com.br/assets/v2/shared/brand/logo-desktop-x1-c6efd4344c5d7ef839202be76c153e77.png"
@@ -41,7 +231,7 @@
 
       <p class="c-instructions__description">
         precisamos que uma modal abra quando o
-        usuário clicar <strong>aqui</strong>.
+        usuário clicar <strong id="openModal">aqui</strong>.
         <br><br>
         o desenho da modal, que deve ser responsiva,
         está incluído na pasta que enviamos a você.
@@ -68,5 +258,33 @@
         indicando o momento do início do teste.
       </p>
     </div>
+    <script type="text/javascript">
+      $("#openModal").on("click",openModal);
+      $(".close, .overlay").on("click", closeModal);
+      $("#modalNews form").on("submit", this, sendDate);
+
+      function openModal() {
+        $(".overlay, .modal-container").addClass("active");
+      }
+
+      function closeModal() {
+        $(".overlay, .modal-container").removeClass("active");
+      }
+
+      function sendDate(evt) {
+        evt.preventDefault();
+        var form = $(evt.target);
+
+        $.ajax({
+           type: 'POST',
+           url: "/api/newsletter",
+           data: form.serialize(),
+           success: function(data){
+              form[0].reset();
+              closeModal();
+           }
+        });
+      }
+    </script>
   </body>
 </html>
